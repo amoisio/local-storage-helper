@@ -1,0 +1,30 @@
+{
+  "name": "local-storage-helper",
+  "version": "1.0.0",
+  "description": "Helper types for working with local storage",
+  "main": "dist/index.js",
+  "type": "module",
+  "files": [
+    "LICENSE",
+    "README.md",
+    "dist/**/*.js",
+    "dist/**/*.d.ts"
+  ],
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist && npx tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amoisio/local-storage-helper.git"
+  },
+  "author": "Aleksi Moisio <aleksi.moisio30@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/amoisio/local-storage-helper/issues"
+  },
+  "homepage": "https://github.com/amoisio/local-storage-helper#readme",
+  "devDependencies": {
+    "typescript": "^4.5.5"
+  }
+}
