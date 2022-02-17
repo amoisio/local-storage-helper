@@ -12,7 +12,8 @@
   ],
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "rm -rf dist && npx tsc"
+    "build": "rm -rf dist && npx tsc",
+    "test": "rm -rf dist && npx tsc && jest"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,12 @@
   },
   "homepage": "https://github.com/amoisio/local-storage-helper#readme",
   "devDependencies": {
+    "@babel/core": "^7.16.7",
+    "@babel/preset-env": "^7.16.7",
+    "@babel/preset-typescript": "^7.16.7",
+    "@types/jest": "^27.4.0",
+    "jest": "^27.4.5",
+    "babel-jest": "^27.4.5",
     "typescript": "^4.5.5"
   }
 }
