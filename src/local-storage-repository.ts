@@ -1,17 +1,17 @@
-export class LocalStorageRepository<TItem> {
+export class LocalStorageRepository<T = any> {
   private readonly storeKey: string;
-  private readonly keyResolver: (item: TItem) => string;
+  private readonly keyResolver: (item: T) => string;
 
-  constructor(storeKey: string, keyResolver: (item: TItem) => string) {
+  constructor(storeKey: string, keyResolver: (item: T) => string) {
     this.storeKey = storeKey;
     this.keyResolver = keyResolver;
   }
 
-  public getAll(): TItem[] {
+  public getAll(): T[] {
     return this.readItems();
   }
 
-  public getByKey(key: string): TItem {
+  public getByKey(key: string): T {
     const match = this.findByKey(key);
     if (match === undefined) {
       throw new Error(`Item not found for key ${key}.`);
@@ -20,17 +20,17 @@ export class LocalStorageRepository<TItem> {
     }
   }
   
-  public findByKey(key: string): TItem | undefined {
+  public findByKey(key: string): T | undefined {
     const items = this.readItems();
     return this.find(key, items);
   }
 
-  public findMatching(predicate: (item: TItem) => boolean): TItem[] {
+  public findMatching(predicate: (item: T) => boolean): T[] {
     const items = this.readItems();
     return items.filter(predicate);
   }
 
-  public addOrUpdate(item: TItem): void {
+  public addOrUpdate(item: T): void {
     const items = this.readItems();
     const match = this.find(this.keyResolver(item), items);    
     if (match === undefined) {
@@ -41,7 +41,7 @@ export class LocalStorageRepository<TItem> {
     this.writeItems(items);
   }
 
-  public remove(key: string): TItem {
+  public remove(key: string): T {
     const items = this.readItems();
     const match = this.find(key, items);
     if (match === undefined) {
@@ -54,16 +54,16 @@ export class LocalStorageRepository<TItem> {
     
   }
 
-  private find(key: string, items: TItem[]): TItem | undefined {
+  private find(key: string, items: T[]): T | undefined {
     return items.find(item => this.keyResolver(item) == key);
   }
 
-  private readItems(): TItem[] {
+  private readItems(): T[] {
     const str = localStorage.getItem(this.storeKey);
     return str === null ? [] : JSON.parse(str);
   }
 
-  private writeItems(items: TItem[]) {
+  private writeItems(items: T[]) {
     const str = JSON.stringify(items);
     localStorage.setItem(this.storeKey, str);
   }
