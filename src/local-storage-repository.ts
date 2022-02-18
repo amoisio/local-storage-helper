@@ -1,8 +1,8 @@
-export class LocalStorageRepository<T = any> {
+export class LocalStorageRepository<T = any, K extends T[keyof T] | string = string> {
   private readonly storeKey: string;
-  private readonly keyResolver: (item: T) => string;
+  private readonly keyResolver: (item: T) => K;
 
-  constructor(storeKey: string, keyResolver: (item: T) => string) {
+  constructor(storeKey: string, keyResolver: (item: T) => K) {
     this.storeKey = storeKey;
     this.keyResolver = keyResolver;
   }
@@ -11,7 +11,7 @@ export class LocalStorageRepository<T = any> {
     return this.readItems();
   }
 
-  public getByKey(key: string): T {
+  public getByKey(key: K): T {
     const match = this.findByKey(key);
     if (match === undefined) {
       throw new Error(`Item not found for key ${key}.`);
@@ -20,7 +20,7 @@ export class LocalStorageRepository<T = any> {
     }
   }
   
-  public findByKey(key: string): T | undefined {
+  public findByKey(key: K): T | undefined {
     const items = this.readItems();
     return this.find(key, items);
   }
@@ -41,7 +41,7 @@ export class LocalStorageRepository<T = any> {
     this.writeItems(items);
   }
 
-  public remove(key: string): T {
+  public remove(key: K): T {
     const items = this.readItems();
     const match = this.find(key, items);
     if (match === undefined) {
@@ -54,7 +54,7 @@ export class LocalStorageRepository<T = any> {
     
   }
 
-  private find(key: string, items: T[]): T | undefined {
+  private find(key: K, items: T[]): T | undefined {
     return items.find(item => this.keyResolver(item) == key);
   }
 
